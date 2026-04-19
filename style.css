@@ -1,0 +1,211 @@
+:root {
+  --bg-primary: #111111;
+  --text-primary: #ffffff;
+  --glow-color: #87CEEB;
+  --btn-bg: rgba(255,255,255,0.05);
+  --btn-border: rgba(255,255,255,0.2);
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-primary);
+  font-family: 'Inter', sans-serif;
+  color: var(--text-primary);
+  transition: background-color 1.5s ease, color 1.5s ease;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  transition: filter 2.0s ease, transform 2.0s ease;
+}
+
+#app.blurred {
+  filter: blur(15px) saturate(0.5);
+  transform: scale(1.05);
+}
+
+#ui-layer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.screen {
+  opacity: 0;
+  transition: opacity 1s ease;
+  pointer-events: none;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.screen.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.glow-text {
+  font-size: 3.5rem;
+  font-weight: 300;
+  text-shadow: 0 0 25px var(--glow-color);
+  margin-bottom: 10px;
+  transition: text-shadow 1.5s ease;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  opacity: 0.7;
+  margin-bottom: 60px;
+}
+
+.emotion-options {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+button {
+  cursor: pointer;
+  background: var(--btn-bg);
+  border: 1px solid var(--btn-border);
+  color: var(--text-primary);
+  border-radius: 12px;
+  padding: 15px 25px;
+  font-size: 1.1rem;
+  transition: all 0.4s ease;
+  backdrop-filter: blur(5px);
+}
+
+button span {
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
+
+button:hover, button.selected {
+  background: rgba(255,255,255,0.15);
+  border-color: var(--glow-color);
+  box-shadow: 0 0 15px var(--glow-color);
+  transform: translateY(-4px);
+}
+
+.divider {
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid var(--btn-border);
+  line-height: 0.1em;
+  margin: 20px 0;
+  opacity: 0.5;
+  transition: border-color 1.5s ease;
+}
+
+.divider span {
+  background: var(--bg-primary);
+  padding: 0 15px;
+  transition: background 1.5s ease;
+}
+
+.primary-btn {
+  margin-top: 30px;
+  padding: 15px 50px;
+  font-size: 1.4rem;
+  font-weight: bold;
+  background: var(--glow-color);
+  color: #000;
+  border: none;
+  box-shadow: 0 0 40px var(--glow-color);
+  animation: pulseButton 3s infinite alternate;
+}
+
+.primary-btn:hover {
+  background: #fff;
+  transform: scale(1.05);
+}
+
+@keyframes pulseButton {
+    0% { box-shadow: 0 0 20px var(--glow-color); }
+    100% { box-shadow: 0 0 50px var(--glow-color); }
+}
+
+.secondary-btn {
+  background: transparent;
+  padding: 10px 20px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+#webcam-status {
+    margin-top: 15px;
+    font-weight: 300;
+    color: var(--glow-color);
+    letter-spacing: 2px;
+    animation: flash 1.5s infinite;
+}
+
+@keyframes flash {
+    0% { opacity: 0.3; }
+    50% { opacity: 1.0; }
+    100% { opacity: 0.3; }
+}
+
+#webcam-video {
+  width: 160px;
+  height: 120px;
+  border-radius: 10px;
+  border: 2px solid var(--glow-color);
+  margin-top: 15px;
+  opacity: 0.5;
+  transition: border-color 1.5s ease;
+}
+
+/* Updated Instructions Panel */
+#instructions {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 40px;
+  border-radius: 20px;
+  backdrop-filter: blur(15px);
+  border: 1px solid var(--glow-color);
+  box-shadow: 0 10px 50px rgba(0,0,0,0.8);
+  pointer-events: auto;
+  text-align: center;
+  transition: border-color 1.5s ease, box-shadow 1.5s ease;
+}
+#instructions h1 { color: var(--glow-color); margin-top: 0; transition: color 1.5s; text-shadow: 0 0 10px var(--glow-color);}
+
+#debug-panel {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(0,0,0,0.85);
+    color: #44ff44;
+    font-family: monospace;
+    font-size: 14px;
+    padding: 15px;
+    border: 1px solid #44ff44;
+    border-radius: 8px;
+    z-index: 1000;
+    pointer-events: none;
+    line-height: 1.5;
+}
+#debug-panel p { margin: 5px 0; font-weight: bold; }

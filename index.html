@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Journey of Emotions</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <!-- Game Canvas Layer -->
+    <div id="app" class="blurred"></div>
+    
+    <!-- UI Layer -->
+    <div id="ui-layer">
+        
+        <!-- Emotion Selector Screen -->
+        <div id="start-screen" class="screen active">
+            <h1 class="glow-text">How are you currently feeling?</h1>
+            <p class="subtitle">Your state molds the journey.</p>
+            
+            <div class="emotion-options">
+                <button class="emp-btn" data-emotion="HAPPY">Happy<br><span>Relaxed</span></button>
+                <button class="emp-btn" data-emotion="EXCITEMENT">Excited<br><span>Flow</span></button>
+                <button class="emp-btn" data-emotion="BOREDOM">Bored<br><span>Empty</span></button>
+                <button class="emp-btn" data-emotion="FRUSTRATION">Frustrated<br><span>Blocked</span></button>
+                <button class="emp-btn" data-emotion="ANXIETY">Anxious<br><span>Tense</span></button>
+            </div>
+            
+            <div class="divider"><span>OR</span></div>
+            
+            <button id="webcam-scan-btn" class="secondary-btn">📷 Let the Journey sense it (Camera)</button>
+            <div id="webcam-status" class="hidden">Scanning emotional state...</div>
+            <video id="webcam-video" autoplay muted class="hidden"></video>
+            
+            <div id="emotion-confirmation" class="hidden">
+                <p>Is this how you feel?</p>
+                <button id="confirm-emotion-btn" class="primary-btn" style="padding: 10px 30px; margin-right: 10px;">Yes</button>
+                <button id="reject-emotion-btn" class="secondary-btn" style="padding: 10px 30px; border: 1px solid var(--btn-border);">No</button>
+            </div>
+            
+            <button id="begin-btn" class="primary-btn hidden">Begin Journey</button>
+        </div>
+
+        <!-- Debug Framework -->
+        <div id="debug-panel">
+            <p>Pos: <span id="dbg-pos"></span></p>
+            <p>VelY: <span id="dbg-vel"></span> | Ground: <span id="dbg-ground"></span></p>
+            <p>Emotion: <span id="dbg-emotion"></span></p>
+            <p>Scarf: <span id="dbg-scarf"></span> | JumpForce: <span id="dbg-jump"></span></p>
+        </div>
+
+        <!-- In-Game Instructions -->
+        <div id="instructions" class="screen hidden">
+            <h1>Desert Journey</h1>
+            <p>Click to resume</p>
+            <p>W, A, S, D to traverse</p>
+            <p>SPACE to jump | SHIFT to Glide</p>
+            <p>Let your emotions guide you</p>
+        </div>
+    </div>
+    
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
