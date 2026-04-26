@@ -41,20 +41,21 @@ body, html {
   left: 0;
   z-index: 10;
   pointer-events: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  overflow-y: auto;
 }
 
 .screen {
   opacity: 0;
   transition: opacity 1s ease;
   pointer-events: none;
-  position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  min-height: 100%;
+  padding-top: 5vh;
+  padding-bottom: 5vh;
+  box-sizing: border-box;
 }
 
 .screen.active {
@@ -76,107 +77,166 @@ body, html {
   margin-bottom: 60px;
 }
 
-.emotion-options {
-  display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-bottom: 30px;
+/* --- Arena FPS Cinematic UI Styles --- */
+.arena-ui {
+  background: transparent;
+  color: #fff;
 }
 
-button {
-  cursor: pointer;
-  background: var(--btn-bg);
-  border: 1px solid var(--btn-border);
-  color: var(--text-primary);
-  border-radius: 12px;
-  padding: 15px 25px;
+.stars-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at center, transparent 0%, #000 100%),
+              url('data:image/svg+xml;utf8,<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg"><circle cx="40" cy="40" r="1" fill="white" opacity="0.8"/><circle cx="150" cy="30" r="1.5" fill="white" opacity="0.4"/><circle cx="90" cy="120" r="2" fill="white" opacity="0.6"/><circle cx="180" cy="180" r="1" fill="white" opacity="0.3"/></svg>');
+  opacity: 0.6;
+  z-index: -2;
+  pointer-events: none;
+}
+
+.noise-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  /* Replaced expensive SVG feTurbulence with lightweight 4x4 repeating png noise */
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKrVq36zwjjgzhhYWGMYAEYB8RmROaABADeOQ8CXl/xfgAAAABJRU5ErkJggg==');
+  background-repeat: repeat;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.header-section {
+  text-align: center;
+  margin-bottom: 5vh;
+  margin-top: -10vh;
+}
+
+.title-large {
+  font-size: 5rem;
+  font-weight: 800;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin: 0;
+  text-shadow: 0 0 30px var(--glow-color), 0 0 10px rgba(255,255,255,0.8);
+  transition: text-shadow 1.5s ease;
+}
+
+.neon-text {
+  font-size: 1.5rem;
+  letter-spacing: 8px;
+  color: var(--glow-color);
+  text-transform: uppercase;
+  font-weight: 300;
+  margin-top: 10px;
+  text-shadow: 0 0 10px var(--glow-color);
+  opacity: 0.9;
+}
+
+.top-right-controls {
+  position: absolute;
+  top: 40px;
+  right: 40px;
+}
+
+.controls-panel {
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 4px solid var(--glow-color);
+  padding: 30px 40px;
+  backdrop-filter: blur(10px);
+  min-width: 300px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+  margin-bottom: 5vh;
+}
+
+.controls-panel h3 {
+  margin-top: 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.7);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding-bottom: 15px;
+}
+
+.controls-panel ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.controls-panel li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
   font-size: 1.1rem;
-  transition: all 0.4s ease;
+}
+
+.controls-panel li:last-child {
+  margin-bottom: 0;
+}
+
+.controls-panel .key {
+  background: rgba(255,255,255,0.1);
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-family: monospace;
+  color: var(--glow-color);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.controls-panel .action {
+  color: #ddd;
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+
+.arena-btn-large {
+  background: transparent;
+  color: #fff;
+  border: 2px solid var(--glow-color);
+  padding: 20px 60px;
+  font-size: 1.8rem;
+  font-weight: bold;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 20px rgba(135, 206, 235, 0.2) inset, 0 0 20px rgba(135, 206, 235, 0.4);
   backdrop-filter: blur(5px);
 }
 
-button span {
-  font-size: 0.8rem;
-  opacity: 0.6;
-}
-
-button:hover, button.selected {
-  background: rgba(255,255,255,0.15);
-  border-color: var(--glow-color);
-  box-shadow: 0 0 15px var(--glow-color);
-  transform: translateY(-4px);
-}
-
-.divider {
-  width: 100%;
-  text-align: center;
-  border-bottom: 1px solid var(--btn-border);
-  line-height: 0.1em;
-  margin: 20px 0;
-  opacity: 0.5;
-  transition: border-color 1.5s ease;
-}
-
-.divider span {
-  background: var(--bg-primary);
-  padding: 0 15px;
-  transition: background 1.5s ease;
-}
-
-.primary-btn {
-  margin-top: 30px;
-  padding: 15px 50px;
-  font-size: 1.4rem;
-  font-weight: bold;
+.arena-btn-large:hover {
   background: var(--glow-color);
   color: #000;
-  border: none;
   box-shadow: 0 0 40px var(--glow-color);
-  animation: pulseButton 3s infinite alternate;
-}
-
-.primary-btn:hover {
-  background: #fff;
   transform: scale(1.05);
 }
 
-@keyframes pulseButton {
-    0% { box-shadow: 0 0 20px var(--glow-color); }
-    100% { box-shadow: 0 0 50px var(--glow-color); }
+.arena-btn-small {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #ccc;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
 }
 
-.secondary-btn {
-  background: transparent;
-  padding: 10px 20px;
+.arena-btn-small:hover {
+  color: #fff;
+  border-color: var(--glow-color);
+  background: rgba(255,255,255,0.1);
+  box-shadow: 0 0 15px var(--glow-color);
 }
 
 .hidden {
   display: none !important;
-}
-
-#webcam-status {
-    margin-top: 15px;
-    font-weight: 300;
-    color: var(--glow-color);
-    letter-spacing: 2px;
-    animation: flash 1.5s infinite;
-}
-
-@keyframes flash {
-    0% { opacity: 0.3; }
-    50% { opacity: 1.0; }
-    100% { opacity: 0.3; }
-}
-
-#webcam-video {
-  width: 160px;
-  height: 120px;
-  border-radius: 10px;
-  border: 2px solid var(--glow-color);
-  margin-top: 15px;
-  opacity: 0.5;
-  transition: border-color 1.5s ease;
 }
 
 /* Updated Instructions Panel */

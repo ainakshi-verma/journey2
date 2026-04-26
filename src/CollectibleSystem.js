@@ -13,17 +13,17 @@ export class CollectibleSystem {
             wireframe: false 
         });
 
-        // Generate initial fragments
-        this.spawnCollectibles(20);
+        // Generate an abundance of initial fragments for the player to collect
+        this.spawnCollectibles(150);
     }
 
     spawnCollectibles(count) {
         const raycaster = new THREE.Raycaster();
         
         for(let i=0; i<count; i++) {
-            // Random location in world
-            const x = (Math.random() - 0.5) * 300;
-            const z = (Math.random() - 0.5) * 300;
+            // Random location in a generously wide world area
+            const x = (Math.random() - 0.5) * 500;
+            const z = (Math.random() - 0.5) * 500;
 
             const mesh = new THREE.Mesh(this.baseGeo, this.baseMat.clone());
             
@@ -40,9 +40,8 @@ export class CollectibleSystem {
                 mesh.userData.baseY = mesh.position.y;
                 mesh.userData.randomOffsets = Math.random() * 100; // offset for hover
                 
-                // Add a glow
-                const pointLight = new THREE.PointLight(0xffaaaa, 2.0, 5);
-                mesh.add(pointLight);
+                // Removed PointLight as 150 concurrent lights crashes WebGL performance entirely.
+                // We rely on the MeshBasicMaterial's unlit emission to look like a glow.
 
                 this.scene.add(mesh);
                 this.collectibles.push(mesh);

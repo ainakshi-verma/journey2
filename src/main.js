@@ -6,6 +6,9 @@ window.addEventListener('DOMContentLoaded', () => {
     // UI Elements
     const startScreen = document.getElementById('start-screen');
     const beginBtn = document.getElementById('begin-btn');
+    const demoBtn = document.getElementById('demo-btn');
+    const appCanvas = document.getElementById('app');
+
     const empBtns = document.querySelectorAll('.emp-btn');
     const webcamBtn = document.getElementById('webcam-scan-btn');
     const webcamStatus = document.getElementById('webcam-status');
@@ -13,9 +16,16 @@ window.addEventListener('DOMContentLoaded', () => {
     const emotionConfirm = document.getElementById('emotion-confirmation');
     const confirmBtn = document.getElementById('confirm-emotion-btn');
     const rejectBtn = document.getElementById('reject-emotion-btn');
-    const appCanvas = document.getElementById('app');
 
-    // Emotion Selection Option A (Buttons)
+    let streamRef = null;
+    function stopWebcam() {
+        if (streamRef) {
+            streamRef.getTracks().forEach(track => track.stop());
+            streamRef = null;
+        }
+    }
+
+    // Emotion Selection via Buttons
     empBtns.forEach(btn => {
         btn.addEventListener('mouseenter', () => {
             const emotion = btn.getAttribute('data-emotion');
@@ -23,19 +33,62 @@ window.addEventListener('DOMContentLoaded', () => {
         });
 
         btn.addEventListener('click', () => {
-            empBtns.forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected');
+            empBtns.forEach(b => b.style.boxShadow = 'none');
+            btn.style.boxShadow = '0 0 15px var(--glow-color)';
             
             const emotion = btn.getAttribute('data-emotion');
             app.emotionSystem.setEmotion(emotion);
             beginBtn.classList.remove('hidden');
             
-            // Cleanup webcam junk if clicking manual
             emotionConfirm.classList.add('hidden');
             webcamStatus.classList.add('hidden');
             webcamBtn.classList.remove('hidden');
             stopWebcam();
         });
+    });
+
+    // Webcam scanning
+    webcamBtn.addEventListener('click', async () => {
+        try {
+            webcamBtn.classList.add('hidden');
+            webcamStatus.classList.remove('hidden');
+            webcamVideo.classList.remove('hidden');
+            beginBtn.classList.add('hidden');
+
+            streamRef = await navigator.mediaDevices.getUserMedia({ video: true });
+            webcamVideo.srcObject = streamRef;
+            
+            setTimeout(() => {
+                 const emotions = ['HAPPY', 'EXCITEMENT', 'BOREDOM', 'FRUSTRATION', 'ANXIETY'];
+                 const picked = emotions[Math.floor(Math.random() * emotions.length)];
+                 webcamStatus.innerText = `Scan complete! Sensed: ${picked}`;
+                 app.emotionSystem.setEmotion(picked);
+                 
+                 empBtns.forEach(b => b.style.boxShadow = 'none');
+                 document.querySelector(`[data-emotion="${picked}"]`).style.boxShadow = '0 0 15px var(--glow-color)';
+                 
+                 emotionConfirm.classList.remove('hidden');
+                 stopWebcam();
+                 webcamVideo.classList.add('hidden');
+            }, 3000);
+        } catch (err) {
+            webcamStatus.innerText = "Camera declined. Select a mood manually.";
+            stopWebcam();
+            webcamVideo.classList.add('hidden');
+        }
+    });
+
+    confirmBtn.addEventListener('click', () => {
+        emotionConfirm.classList.add('hidden');
+        beginBtn.classList.remove('hidden');
+    });
+
+    rejectBtn.addEventListener('click', () => {
+        emotionConfirm.classList.add('hidden');
+        webcamStatus.classList.add('hidden');
+        webcamBtn.classList.remove('hidden');
+        beginBtn.classList.add('hidden');
+        empBtns.forEach(b => b.style.boxShadow = 'none');
     });
 
     // Debug Keys 1-5 to force emotion instantly anywhere
@@ -52,73 +105,19 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Emotion Selection Option B (Webcam Simulation)
-    let streamRef = null;
-    webcamBtn.addEventListener('click', async () => {
-        try {
-            webcamBtn.classList.add('hidden');
-            webcamStatus.classList.remove('hidden');
-            webcamVideo.classList.remove('hidden');
-
-            streamRef = await navigator.mediaDevices.getUserMedia({ video: true });
-            webcamVideo.srcObject = streamRef;
-            
-            // Wait 3 seconds to "scan"
-            setTimeout(() => {
-                 const emotions = ['HAPPY', 'EXCITEMENT', 'BOREDOM', 'FRUSTRATION', 'ANXIETY'];
-                 const picked = emotions[Math.floor(Math.random() * emotions.length)];
-                 
-                 webcamStatus.innerText = `Scan complete. We sense ${picked.toLowerCase()}.`;
-                 app.emotionSystem.setEmotion(picked);
-                 
-                 // Light up button
-                 empBtns.forEach(b => b.classList.remove('selected'));
-                 document.querySelector(`[data-emotion="${picked}"]`).classList.add('selected');
-                 
-                 emotionConfirm.classList.remove('hidden');
-                 stopWebcam();
-                 webcamVideo.classList.add('hidden');
-            }, 3000);
-
-        } catch (err) {
-            webcamStatus.innerText = "Camera declined. Please select an emotion.";
-            stopWebcam();
-        }
+    // Preview / Demo mode
+    demoBtn.addEventListener('click', () => {
+        startScreen.classList.remove('active');
+        setTimeout(() => { startScreen.classList.add('hidden'); }, 1000);
+        appCanvas.classList.remove('blurred');
+        app.requestPointerLock();
     });
-
-    confirmBtn.addEventListener('click', () => {
-        emotionConfirm.classList.add('hidden');
-        beginBtn.classList.remove('hidden');
-    });
-
-    rejectBtn.addEventListener('click', () => {
-        emotionConfirm.classList.add('hidden');
-        webcamStatus.classList.add('hidden');
-        webcamBtn.classList.remove('hidden');
-        
-        // Let user select manually
-        beginBtn.classList.add('hidden');
-        empBtns.forEach(b => b.classList.remove('selected'));
-        app.emotionSystem.setEmotion('HAPPY'); // Revert base
-    });
-
-    function stopWebcam() {
-        if (streamRef) {
-            streamRef.getTracks().forEach(track => track.stop());
-            streamRef = null;
-        }
-    }
 
     // Begin Gameplay
     beginBtn.addEventListener('click', () => {
         startScreen.classList.remove('active');
-        setTimeout(() => {
-             startScreen.classList.add('hidden');
-        }, 1000);
-        
+        setTimeout(() => { startScreen.classList.add('hidden'); }, 1000);
         appCanvas.classList.remove('blurred');
-        
-        // Initial pointer lock request
         app.requestPointerLock();
     });
 });

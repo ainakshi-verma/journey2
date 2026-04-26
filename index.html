@@ -13,32 +13,57 @@
     <!-- UI Layer -->
     <div id="ui-layer">
         
-        <!-- Emotion Selector Screen -->
-        <div id="start-screen" class="screen active">
-            <h1 class="glow-text">How are you currently feeling?</h1>
-            <p class="subtitle">Your state molds the journey.</p>
+        <!-- Main Menu / Home Screen -->
+        <div id="start-screen" class="screen active arena-ui">
+            <div class="stars-overlay"></div>
+            <div class="noise-overlay"></div>
             
-            <div class="emotion-options">
-                <button class="emp-btn" data-emotion="HAPPY">Happy<br><span>Relaxed</span></button>
-                <button class="emp-btn" data-emotion="EXCITEMENT">Excited<br><span>Flow</span></button>
-                <button class="emp-btn" data-emotion="BOREDOM">Bored<br><span>Empty</span></button>
-                <button class="emp-btn" data-emotion="FRUSTRATION">Frustrated<br><span>Blocked</span></button>
-                <button class="emp-btn" data-emotion="ANXIETY">Anxious<br><span>Tense</span></button>
+            <div class="header-section">
+                <h1 class="title-large">Journey of Emotions</h1>
+                <p class="subtitle neon-text">Flow &bull; Explore &bull; Survive Emotion</p>
             </div>
             
-            <div class="divider"><span>OR</span></div>
-            
-            <button id="webcam-scan-btn" class="secondary-btn">📷 Let the Journey sense it (Camera)</button>
-            <div id="webcam-status" class="hidden">Scanning emotional state...</div>
-            <video id="webcam-video" autoplay muted class="hidden"></video>
-            
-            <div id="emotion-confirmation" class="hidden">
-                <p>Is this how you feel?</p>
-                <button id="confirm-emotion-btn" class="primary-btn" style="padding: 10px 30px; margin-right: 10px;">Yes</button>
-                <button id="reject-emotion-btn" class="secondary-btn" style="padding: 10px 30px; border: 1px solid var(--btn-border);">No</button>
+            <div id="mood-selector" class="controls-panel" style="margin-bottom: 2vh;">
+                <h3 style="text-align: center;">Set Starting Mood</h3>
+                <div class="emotion-options" style="display: flex; gap: 10px; justify-content: center; margin-bottom: 15px;">
+                    <button class="emp-btn arena-btn-small" data-emotion="HAPPY">Happy</button>
+                    <button class="emp-btn arena-btn-small" data-emotion="EXCITEMENT">Excited</button>
+                    <button class="emp-btn arena-btn-small" data-emotion="BOREDOM">Bored</button>
+                    <button class="emp-btn arena-btn-small" data-emotion="FRUSTRATION">Frustrated</button>
+                    <button class="emp-btn arena-btn-small" data-emotion="ANXIETY">Anxious</button>
+                </div>
+                <div style="text-align: center; margin-bottom: 15px; font-size: 0.8rem; color: #888;">--- OR ---</div>
+                <div style="text-align: center;">
+                    <button id="webcam-scan-btn" class="arena-btn-small" style="width: 100%;">📷 Detect with Camera</button>
+                    <div id="webcam-status" class="hidden" style="margin-top: 10px; color: var(--glow-color);">Scanning emotional state...</div>
+                    <video id="webcam-video" autoplay muted class="hidden" style="width: 160px; border-radius: 8px; border: 2px solid var(--glow-color); margin: 10px auto;"></video>
+                    
+                    <div id="emotion-confirmation" class="hidden" style="margin-top: 10px;">
+                        <p style="margin-bottom: 5px;">Is this how you feel?</p>
+                        <button id="confirm-emotion-btn" class="arena-btn-small">Yes</button>
+                        <button id="reject-emotion-btn" class="arena-btn-small">No</button>
+                    </div>
+                </div>
             </div>
             
-            <button id="begin-btn" class="primary-btn hidden">Begin Journey</button>
+            <div class="top-right-controls">
+                <button id="demo-btn" class="arena-btn-small">Preview / Demo</button>
+            </div>
+            
+            <div class="controls-panel">
+                <h3>System Controls</h3>
+                <ul>
+                    <li><span class="key">WASD</span> <span class="action">Move</span></li>
+                    <li><span class="key">Mouse</span> <span class="action">Camera</span></li>
+                    <li><span class="key">Space</span> <span class="action">Jump (Height scales with Scarfs!)</span></li>
+                    <li><span class="key">Shift</span> <span class="action">Glide Boost</span></li>
+                    <li><span class="key">ESC</span> <span class="action">Pause</span></li>
+                </ul>
+            </div>
+            
+            <div class="bottom-action">
+                <button id="begin-btn" class="arena-btn-large hidden">START GAME</button>
+            </div>
         </div>
 
         <!-- Debug Framework -->

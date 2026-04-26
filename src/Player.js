@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import { Companion } from './Companion.js';
+import { EmotionTracker } from './EmotionTracker.js';
 
 export class Player {
   constructor(scene, camera, input, environment, energySystem, emotionSystem) {
@@ -28,6 +30,9 @@ export class Player {
     this.createHumanoidMesh();
     
     this.raycaster = new THREE.Raycaster();
+
+    this.companion = new Companion(scene, this);
+    this.tracker = new EmotionTracker(this.emotionSystem, this);
   }
 
   createHumanoidMesh() {
@@ -93,11 +98,18 @@ export class Player {
   }
 
   update(delta) {
+    // Disabled EmotionTracker dynamically hijacking the theme based on user request.
+    // if (this.tracker) this.tracker.update(delta);
+      
     this.applyInput(delta);
     this.applyPhysics(delta);
     this.updateRotation(delta);
     this.updateAnimations(delta);
     this.checkBounds();
+
+    if (this.companion && this.emotionSystem) {
+        this.companion.update(delta, this.emotionSystem.getProfile(), this.emotionSystem.currentState);
+    }
   }
 
   applyInput(delta) {
@@ -208,6 +220,7 @@ export class Player {
         this.mesh.position.copy(this.spawnPoint);
         this.velocity.set(0,0,0);
         this.onGround = true;
+        if (this.tracker) this.tracker.notifyFall();
     }
   }
 
