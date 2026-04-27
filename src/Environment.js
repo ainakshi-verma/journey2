@@ -54,6 +54,11 @@ export class Environment {
       
       this.dirLight.color.copy(profile.lightColor);
       this.dirLight.intensity = profile.lightIntensity;
+      
+      if (profile.ambientColor) {
+          this.ambientLight.color.copy(profile.ambientColor);
+          this.ambientLight.intensity = profile.ambientIntensity;
+      }
 
       if (profile.terrainColor && this.terrainMeshes.length > 0) {
           // Assuming main terrain is the first mesh

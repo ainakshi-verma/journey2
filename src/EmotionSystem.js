@@ -10,79 +10,89 @@ export const EMOTIONS = {
 
 const EMOTION_PROFILES = {
     [EMOTIONS.FRUSTRATION]: {
-        skyColor: new THREE.Color("#ff5500"), // Hazy burnt orange
-        fogColor: new THREE.Color("#cc3300"),
-        domBgColor: '#331100', // Matches burnt orange theme
+        skyColor: new THREE.Color("#cc4400"), // Burnt orange haze
+        fogColor: new THREE.Color("#aa2200"), // Dusty red glow horizon
+        domBgColor: '#2a0800', 
         domTextColor: '#ffddcc',
         fogDensity: 0.008,
-        lightColor: new THREE.Color("#ff8844"),
-        lightIntensity: 0.6,
+        lightColor: new THREE.Color("#ff8855"), // Harsh, sharp light
+        lightIntensity: 1.5,
+        ambientColor: new THREE.Color("#221100"),
+        ambientIntensity: 0.2, // Dark brown-black, heavy shadows
         speedMultiplier: 0.8,
         frictionMultiplier: 0.6,
         glideEfficiency: 1.5,
         cameraDistance: 7.0,
         glowIntensity: 0.5,
-        terrainColor: new THREE.Color("#883311") // Cracked rust
+        terrainColor: new THREE.Color("#882211") // Cracked rust / dry clay
     },
     [EMOTIONS.BOREDOM]: {
-        skyColor: new THREE.Color("#aaaaaa"), // Flat grey overcast
-        fogColor: new THREE.Color("#888888"),
-        domBgColor: '#222222', 
+        skyColor: new THREE.Color("#b0b0b0"), // Flat pale grey
+        fogColor: new THREE.Color("#a0a0a0"), // Faded white-grey blur horizon
+        domBgColor: '#1a1a1a', 
         domTextColor: '#bbbbbb',
         fogDensity: 0.005,
-        lightColor: new THREE.Color("#cccccc"),
-        lightIntensity: 0.3,
+        lightColor: new THREE.Color("#ffffff"), // Washed out
+        lightIntensity: 0.1,
+        ambientColor: new THREE.Color("#dddddd"),
+        ambientIntensity: 0.9, // Barely visible shadows
         speedMultiplier: 0.9,
         frictionMultiplier: 0.9,
         glideEfficiency: 1.0,
         cameraDistance: 8.0,
-        glowIntensity: 0.2,
-        terrainColor: new THREE.Color("#666666") // Featureless grey plain
+        glowIntensity: 0.1,
+        terrainColor: new THREE.Color("#b4b4b4") // Dusty grey-beige plain
     },
     [EMOTIONS.EXCITEMENT]: {
-        skyColor: new THREE.Color("#ffaa00"), // Golden amber
-        fogColor: new THREE.Color("#4b0082"), // Deep purple dusk
-        domBgColor: '#2a0044', // Deep purple
+        skyColor: new THREE.Color("#ba97d4"), // Deep purple dusk
+        fogColor: new THREE.Color("#ffcc44"), // Warm glowing gold horizon
+        domBgColor: '#2a0044', 
         domTextColor: '#ffffff',
-        fogDensity: 0.0015,
-        lightColor: new THREE.Color("#ffdd88"),
-        lightIntensity: 1.0,
+        fogDensity: 0.003,
+        lightColor: new THREE.Color("#ffdd88"), // Radiant, cinematic glow
+        lightIntensity: 1.2,
+        ambientColor: new THREE.Color("#d8a471"),
+        ambientIntensity: 0.6, 
         speedMultiplier: 1.3,
         frictionMultiplier: 1.2,
         glideEfficiency: 0.5,
         cameraDistance: 5.5,
-        glowIntensity: 3.0,
-        terrainColor: new THREE.Color("#ffcc00") // Glowing amber dunes
+        glowIntensity: 4.0, // Soft golden sparkles
+        terrainColor: new THREE.Color("#ffaa00") // Shimmering amber sand
     },
     [EMOTIONS.ANXIETY]: {
-        skyColor: new THREE.Color("#000a1a"), // Cold near-black blue
-        fogColor: new THREE.Color("#00050d"),
+        skyColor: new THREE.Color("#050a14"), // Cold deep blue (almost black)
+        fogColor: new THREE.Color("#111a33"), // Faint distant light horizon
         domBgColor: '#000000',
         domTextColor: '#8888aa',
-        fogDensity: 0.008, 
-        lightColor: new THREE.Color("#3366ff"),
-        lightIntensity: 0.3,
+        fogDensity: 0.012, 
+        lightColor: new THREE.Color("#a3bff6"), // Very low, selective
+        lightIntensity: 0.4,
+        ambientColor: new THREE.Color("#020408"),
+        ambientIntensity: 0.1, // Deep and consuming shadows
         speedMultiplier: 1.0,
         frictionMultiplier: 0.8,
         glideEfficiency: 1.2,
         cameraDistance: 3.5,
         glowIntensity: 0.8,
-        terrainColor: new THREE.Color("#111111") // Dark charcoal textures
+        terrainColor: new THREE.Color("#92b6ea") // Dark charcoal / muted blue-grey
     },
     [EMOTIONS.HAPPY]: {
-        skyColor: new THREE.Color("#87CEEB"), // Clear pale blue
-        fogColor: new THREE.Color("#aaddff"),
-        domBgColor: '#002233', // Deep blue tint
+        skyColor: new THREE.Color("#87CEEB"), // Clear soft blue
+        fogColor: new THREE.Color("#ffeedd"), // Warm light yellow glow horizon
+        domBgColor: '#002233', 
         domTextColor: '#ffffff',
         fogDensity: 0.002,
-        lightColor: new THREE.Color("#ffffff"),
-        lightIntensity: 0.9,
+        lightColor: new THREE.Color("#ffffcc"), // Gentle, diffused sunlight
+        lightIntensity: 1.0,
+        ambientColor: new THREE.Color("#aaccff"),
+        ambientIntensity: 0.7, // Soft reflections
         speedMultiplier: 1.0,
         frictionMultiplier: 1.0,
         glideEfficiency: 1.0,
         cameraDistance: 6.0,
-        glowIntensity: 1.5,
-        terrainColor: new THREE.Color("#b8c878") // Soft green-gold sand
+        glowIntensity: 1.5, // Subtle sparkles
+        terrainColor: new THREE.Color("#d3f28a") // Soft green mixed with golden sand
     }
 };
 
@@ -91,13 +101,14 @@ export class EmotionSystem {
         this.currentState = EMOTIONS.HAPPY;
         this.targetState = EMOTIONS.HAPPY;
         
-        // Deep copy the initial state for current tracking
         this.currentProfile = {
             skyColor: EMOTION_PROFILES[EMOTIONS.HAPPY].skyColor.clone(),
             fogColor: EMOTION_PROFILES[EMOTIONS.HAPPY].fogColor.clone(),
             fogDensity: EMOTION_PROFILES[EMOTIONS.HAPPY].fogDensity,
             lightColor: EMOTION_PROFILES[EMOTIONS.HAPPY].lightColor.clone(),
             lightIntensity: EMOTION_PROFILES[EMOTIONS.HAPPY].lightIntensity,
+            ambientColor: EMOTION_PROFILES[EMOTIONS.HAPPY].ambientColor.clone(),
+            ambientIntensity: EMOTION_PROFILES[EMOTIONS.HAPPY].ambientIntensity,
             speedMultiplier: EMOTION_PROFILES[EMOTIONS.HAPPY].speedMultiplier,
             frictionMultiplier: EMOTION_PROFILES[EMOTIONS.HAPPY].frictionMultiplier,
             glideEfficiency: EMOTION_PROFILES[EMOTIONS.HAPPY].glideEfficiency,
@@ -122,6 +133,7 @@ export class EmotionSystem {
         this.currentProfile.skyColor.lerp(target.skyColor, lerpFactor);
         this.currentProfile.fogColor.lerp(target.fogColor, lerpFactor);
         this.currentProfile.lightColor.lerp(target.lightColor, lerpFactor);
+        this.currentProfile.ambientColor.lerp(target.ambientColor, lerpFactor);
         if (target.terrainColor) {
             this.currentProfile.terrainColor.lerp(target.terrainColor, lerpFactor);
         }
@@ -129,6 +141,7 @@ export class EmotionSystem {
         // Lerp scalars
         this.currentProfile.fogDensity = THREE.MathUtils.lerp(this.currentProfile.fogDensity, target.fogDensity, lerpFactor);
         this.currentProfile.lightIntensity = THREE.MathUtils.lerp(this.currentProfile.lightIntensity, target.lightIntensity, lerpFactor);
+        this.currentProfile.ambientIntensity = THREE.MathUtils.lerp(this.currentProfile.ambientIntensity, target.ambientIntensity, lerpFactor);
         this.currentProfile.speedMultiplier = THREE.MathUtils.lerp(this.currentProfile.speedMultiplier, target.speedMultiplier, lerpFactor);
         this.currentProfile.frictionMultiplier = THREE.MathUtils.lerp(this.currentProfile.frictionMultiplier, target.frictionMultiplier, lerpFactor);
         this.currentProfile.glideEfficiency = THREE.MathUtils.lerp(this.currentProfile.glideEfficiency, target.glideEfficiency, lerpFactor);

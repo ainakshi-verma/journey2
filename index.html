@@ -19,51 +19,73 @@
             <div class="noise-overlay"></div>
             
             <div class="header-section">
-                <h1 class="title-large" >Journey of Emotions</h1>
-
-                <p class="subtitle neon-text">Flow &bull; Explore &bull; Survive Emotion</p>
+                <h1 class="title-large" style="text-transform: none; letter-spacing: normal;">How are you currently feeling?</h1>
+                <p class="subtitle neon-text" style="font-size: 1rem; color: #ccc; text-shadow: none; letter-spacing: 2px;">Your state molds the journey.</p>
             </div>
             
-            <div id="mood-selector" class="controls-panel" style="margin-bottom: 2vh;">
-                <h3 style="text-align: center;">Set Starting Mood</h3>
-                <div class="emotion-options" style="display: flex; gap: 10px; justify-content: center; margin-bottom: 15px;">
-                    <button class="emp-btn arena-btn-small" data-emotion="HAPPY">Happy</button>
-                    <button class="emp-btn arena-btn-small" data-emotion="EXCITEMENT">Excited</button>
-                    <button class="emp-btn arena-btn-small" data-emotion="BOREDOM">Bored</button>
-                    <button class="emp-btn arena-btn-small" data-emotion="FRUSTRATION">Frustrated</button>
-                    <button class="emp-btn arena-btn-small" data-emotion="ANXIETY">Anxious</button>
-                </div>
-                <div style="text-align: center; margin-bottom: 15px; font-size: 0.8rem; color: #888;">--- OR ---</div>
-                <div style="text-align: center;">
-                    <button id="webcam-scan-btn" class="arena-btn-small" style="width: 100%;">📷 Detect with Camera</button>
-                    <div id="webcam-status" class="hidden" style="margin-top: 10px; color: var(--glow-color);">Scanning emotional state...</div>
-                    <video id="webcam-video" autoplay muted class="hidden" style="width: 160px; border-radius: 8px; border: 2px solid var(--glow-color); margin: 10px auto;"></video>
+            <div style="display: flex; flex-direction: row; gap: 40px; justify-content: center; align-items: stretch; margin-bottom: 2vh; flex-wrap: nowrap; width: 90%; max-width: 1200px;">
+                
+                <!-- Mood Selector (Image 2 Aesthetic) -->
+                <div id="mood-selector" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <div class="emotion-options" style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-bottom: 20px; max-width: 400px;">
+                        <button class="emp-btn mood-box" data-emotion="HAPPY">
+                            <span class="mood-title">Happy</span>
+                            <span class="mood-sub">Relaxed</span>
+                        </button>
+                        <button class="emp-btn mood-box" data-emotion="EXCITEMENT">
+                            <span class="mood-title">Excited</span>
+                            <span class="mood-sub">Flow</span>
+                        </button>
+                        <button class="emp-btn mood-box" data-emotion="BOREDOM">
+                            <span class="mood-title">Bored</span>
+                            <span class="mood-sub">Empty</span>
+                        </button>
+                        <button class="emp-btn mood-box" data-emotion="FRUSTRATION">
+                            <span class="mood-title">Frustrated</span>
+                            <span class="mood-sub">Blocked</span>
+                        </button>
+                        <button class="emp-btn mood-box" data-emotion="ANXIETY">
+                            <span class="mood-title">Anxious</span>
+                            <span class="mood-sub">Tense</span>
+                        </button>
+                    </div>
                     
-                    <div id="emotion-confirmation" class="hidden" style="margin-top: 10px;">
-                        <p style="margin-bottom: 5px;">Is this how you feel?</p>
-                        <button id="confirm-emotion-btn" class="arena-btn-small">Yes</button>
-                        <button id="reject-emotion-btn" class="arena-btn-small">No</button>
+                    <div class="or-divider"><span>OR</span></div>
+                    
+                    <div style="text-align: center; width: 100%;">
+                        <button id="webcam-scan-btn" class="camera-btn" style="width: 100%; max-width: 350px;">📷 Let the Journey sense it (Camera)</button>
+                        <div id="webcam-status" class="hidden" style="margin-top: 10px; color: var(--glow-color);">Scanning emotional state...</div>
+                        <video id="webcam-video" autoplay muted class="hidden" style="width: 160px; border-radius: 8px; border: 2px solid var(--glow-color); margin: 10px auto;"></video>
+                        
+                        <div id="emotion-confirmation" class="hidden" style="margin-top: 10px;">
+                            <p style="margin-bottom: 5px;">Is this how you feel?</p>
+                            <button id="confirm-emotion-btn" class="arena-btn-small">Yes</button>
+                            <button id="reject-emotion-btn" class="arena-btn-small">No</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Controls Panel (Image 1 Aesthetic) -->
+                <div class="controls-panel" style="flex: 1; margin-bottom: 0; display: flex; flex-direction: column; justify-content: center;">
+                    <div class="controls-grid">
+                        <div class="ctrl-item"><span class="key">WASD</span> <span class="action">Move</span></div>
+                        <div class="ctrl-item"><span class="key">Mouse</span> <span class="action">Camera</span></div>
+                        <div class="ctrl-item"><span class="key">Space</span> <span class="action">Jump</span></div>
+                        <div class="ctrl-item"><span class="key">Shift</span> <span class="action">Glide Boost</span></div>
+                        <div class="ctrl-item"><span class="key">ESC</span> <span class="action">Pause</span></div>
+                    </div>
+                    <div style="margin-top: 15px; font-size: 0.85rem; color: #aaa; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
+                        * Collect scarfs to jump higher!
                     </div>
                 </div>
             </div>
             
             <div class="top-right-controls">
-                <button id="demo-btn" class="arena-btn-small">Preview / Demo</button>
+                <button id="demo-btn" class="arena-btn-small" style="border-color: #ffd700; color: #ffd700;">Preview</button>
             </div>
             
-            <div class="controls-panel">
-                <h3>System Controls</h3>
-                <ul>
-                    <li><span class="key">WASD</span> <span class="action">Move</span></li>
-                    <li><span class="key">Mouse</span> <span class="action">Camera</span></li>
-                    <li><span class="key">Space</span> <span class="action">Jump (Height scales with Scarfs!)</span></li>
-                    <li><span class="key">Shift</span> <span class="action">Glide Boost</span></li>
-                    <li><span class="key">ESC</span> <span class="action">Pause</span></li>
-                </ul>
-            </div>
-            
-            <div class="bottom-action">
-                <button id="begin-btn" class="arena-btn-large hidden">START GAME</button>
+            <div class="bottom-action" style="min-height: 80px; margin-top: 3vh;">
+                <button id="begin-btn" class="start-btn-orange invisible">▶ START GAME</button>
             </div>
         </div>
 
@@ -77,11 +99,11 @@
 
         <!-- In-Game Instructions -->
         <div id="instructions" class="screen hidden">
-            <h1>Desert Journey</h1>
-            <p>Click to resume</p>
+            <h1 style="color: var(--glow-color); text-shadow: 0 0 20px var(--glow-color);">Desert Journey</h1>
+            <p>Click anywhere to resume</p>
             <p>W, A, S, D to traverse</p>
             <p>SPACE to jump | SHIFT to Glide</p>
-            <p>Let your emotions guide you</p>
+            <button id="back-home-btn" class="camera-btn" style="margin-top: 30px; border-color: #ffaa00; color: #ffaa00;">⬅ Return to Menu</button>
         </div>
     </div>
     
