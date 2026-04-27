@@ -107,18 +107,20 @@ body, html {
 
 .header-section {
   text-align: center;
-  margin-bottom: 5vh;
-  margin-top: -10vh;
+  margin-bottom: 3vh;
+  /* Removed negative top margin that was pushing text off-screen */
 }
 
 .title-large {
-  font-size: 5rem;
+  font-size: clamp(2.5rem, 5vw, 4.5rem); /* Responsive sizing to prevent horizontal cutoff */
   font-weight: 800;
   letter-spacing: 4px;
   text-transform: uppercase;
   margin: 0;
+  padding: 0 20px; /* Add padding to prevent clipping at exact edges */
   text-shadow: 0 0 30px var(--glow-color), 0 0 10px rgba(255,255,255,0.8);
   transition: text-shadow 1.5s ease;
+  word-wrap: break-word; /* Ensure it wraps if screen is too narrow */
 }
 
 .neon-text {
