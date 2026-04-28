@@ -31,7 +31,8 @@ export class Player {
     
     this.raycaster = new THREE.Raycaster();
 
-    this.companion = new Companion(scene, this);
+    // Companion disabled per user request
+    // this.companion = new Companion(scene, this);
     this.tracker = new EmotionTracker(this.emotionSystem, this);
   }
 
@@ -107,9 +108,9 @@ export class Player {
     this.updateAnimations(delta);
     this.checkBounds();
 
-    if (this.companion && this.emotionSystem) {
-        this.companion.update(delta, this.emotionSystem.getProfile(), this.emotionSystem.currentState);
-    }
+    // if (this.companion && this.emotionSystem) {
+    //     this.companion.update(delta, this.emotionSystem.getProfile(), this.emotionSystem.currentState);
+    // }
   }
 
   applyInput(delta) {
